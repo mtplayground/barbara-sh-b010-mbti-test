@@ -10,6 +10,18 @@ export function AboutPage() {
       </p>
       <h1>{t('about.title')}</h1>
       <p className="mt-6 max-w-2xl text-balance">{t('about.description')}</p>
+      <section
+        className="mt-8 max-w-2xl rounded-3xl border border-white/70 bg-white/80 p-6 shadow-[var(--shadow-soft)] backdrop-blur"
+        aria-labelledby="disclaimer-title"
+      >
+        <h2
+          id="disclaimer-title"
+          className="text-xl font-bold text-slate-950 sm:text-2xl"
+        >
+          {t('disclaimer.title')}
+        </h2>
+        <p className="mt-3">{t('disclaimer.full')}</p>
+      </section>
     </section>
   );
 }
