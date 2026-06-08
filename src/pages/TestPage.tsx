@@ -1,27 +1,44 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { QuestionCard } from '../components';
 import { questionBank, totalQuestionCount } from '../data';
 import { readTestProgress, saveTestProgress } from '../lib';
 import type { LikertValue } from '../lib';
 
+const validationMessageId = 'test-submit-validation';
+
 export function TestPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(
     () => readTestProgress().currentIndex,
   );
   const [answers, setAnswers] = useState<Record<string, LikertValue>>(
     () => readTestProgress().answers,
   );
+  const [showValidation, setShowValidation] = useState(false);
   const currentQuestion = questionBank[currentIndex];
 
   const answeredCount = useMemo(() => Object.keys(answers).length, [answers]);
+  const missingQuestionIndexes = useMemo(
+    () =>
+      questionBank.reduce<number[]>((missingIndexes, question, index) => {
+        if (answers[question.id] === undefined) {
+          missingIndexes.push(index);
+        }
+
+        return missingIndexes;
+      }, []),
+    [answers],
+  );
   const unansweredCount = totalQuestionCount - answeredCount;
   const completionPercent = Math.round(
     (answeredCount / totalQuestionCount) * 100,
   );
   const isFirstQuestion = currentIndex === 0;
   const isLastQuestion = currentIndex === totalQuestionCount - 1;
+  const hasUnansweredQuestions = missingQuestionIndexes.length > 0;
 
   useEffect(() => {
     saveTestProgress({
@@ -43,6 +60,23 @@ export function TestPage() {
 
   const goToNextQuestion = () => {
     setCurrentIndex((index) => Math.min(index + 1, totalQuestionCount - 1));
+  };
+
+  const handleSubmit = () => {
+    if (hasUnansweredQuestions) {
+      const firstMissingQuestionIndex = missingQuestionIndexes[0];
+
+      setShowValidation(true);
+
+      if (firstMissingQuestionIndex !== undefined) {
+        setCurrentIndex(firstMissingQuestionIndex);
+      }
+
+      return;
+    }
+
+    setShowValidation(false);
+    void navigate('/result');
   };
 
   if (!currentQuestion) {
@@ -96,6 +130,34 @@ export function TestPage() {
         </p>
       </div>
 
+      {showValidation && hasUnansweredQuestions ? (
+        <div
+          id={validationMessageId}
+          className="rounded-3xl border border-amber-200 bg-amber-50/90 p-5 text-amber-950 shadow-sm"
+          role="alert"
+        >
+          <p className="text-base font-bold">
+            {t('validation.allQuestionsRequired')}
+          </p>
+          <p className="mt-2 text-sm">{t('validation.missingAnswers')}</p>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {missingQuestionIndexes.map((questionIndex) => (
+              <li key={questionBank[questionIndex]?.id ?? questionIndex}>
+                <button
+                  type="button"
+                  className="rounded-full border border-amber-300 bg-white/80 px-3 py-2 text-sm font-bold text-amber-900 transition hover:border-amber-400 hover:bg-white"
+                  onClick={() => {
+                    setCurrentIndex(questionIndex);
+                  }}
+                >
+                  {t('labels.question')} {questionIndex + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
       <QuestionCard
         question={currentQuestion}
         questionNumber={currentIndex + 1}
@@ -122,10 +184,14 @@ export function TestPage() {
         <button
           type="button"
           className="min-h-12 rounded-full bg-indigo-600 px-6 text-sm font-bold text-white shadow-[var(--shadow-accent)] transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
-          onClick={goToNextQuestion}
-          disabled={isLastQuestion}
+          onClick={isLastQuestion ? handleSubmit : goToNextQuestion}
+          aria-describedby={
+            showValidation && hasUnansweredQuestions
+              ? validationMessageId
+              : undefined
+          }
         >
-          {t('actions.next')}
+          {isLastQuestion ? t('actions.submit') : t('actions.next')}
         </button>
       </div>
     </section>
