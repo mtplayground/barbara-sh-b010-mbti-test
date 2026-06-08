@@ -95,7 +95,13 @@ export const en = {
       eyebrow: 'About / Disclaimer',
       title: 'About / Disclaimer',
       description:
-        'This route is reserved for the project context and disclaimer content that will be expanded in a later issue.',
+        'This test is an informal self-reflection tool designed to make personality-language easier to explore.',
+      informalTitle: 'Informal self-reflection',
+      informalBody:
+        'The questions and results are meant to support personal reflection, conversation, and entertainment. They should not be treated as a fixed label or a complete description of any person.',
+      notOfficialTitle: 'Not an official Myers-Briggs assessment',
+      notOfficialBody:
+        'This experience is not affiliated with, endorsed by, or a substitute for any official Myers-Briggs assessment, certified practitioner, clinical evaluation, hiring process, or diagnostic tool.',
     },
     validation: {
       answerRequired: 'Select an answer before continuing.',
