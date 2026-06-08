@@ -80,6 +80,8 @@ export const zhCN = {
       title: '结果',
       description:
         '结果页面路由已就绪，待计分和提交答案功能完成后将展示人格类型。',
+      interpretationTitle: '详细解读',
+      breakdownIntro: '分数展示每个维度中，各偏好方向获得的同意度总分。',
     },
     about: {
       eyebrow: '关于 / 免责声明',

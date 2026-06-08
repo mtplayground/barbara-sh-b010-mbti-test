@@ -82,6 +82,9 @@ export const en = {
       title: 'Result',
       description:
         'The routed result page is ready to display a completed personality type once scoring and answer submission are implemented.',
+      interpretationTitle: 'Detailed interpretation',
+      breakdownIntro:
+        'Scores show the total agreement points assigned to each pole in every dimension.',
     },
     about: {
       eyebrow: 'About / Disclaimer',
