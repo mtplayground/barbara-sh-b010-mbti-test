@@ -1,11 +1,14 @@
 target/
 node_modules/
+dist/
 .gh_token
 .claude/
 .database_url
 .task_id
 .container_name
 .app_name
+.db_decision
+.storage_decision
 .gh_user
 .github_token
 .pipeline-state.json
