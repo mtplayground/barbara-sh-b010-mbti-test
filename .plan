@@ -1,0 +1,88 @@
+# Architecture Plan
+
+## Product Scope
+
+Build a static React + TypeScript + Vite MBTI-style self-reflection test with bilingual English and zh-CN support. The primary public title from the issues is "Discover Your MBTI Personality Type". The app is an informal self-reflection and entertainment tool, not an official Myers-Briggs, clinical, psychological, hiring, or diagnostic assessment.
+
+## Module Structure
+
+Initial scaffold should use the issue-specified folders:
+
+- `src/pages/`: route-level screens for `HomePage`, `TestPage`, `ResultPage`, and `AboutPage`.
+- `src/components/`: reusable UI and layout pieces, including `AppShell`, `Header`, `LanguageToggle`, `LikertScale`, `QuestionCard`, progress/navigation controls, and result/share blocks.
+- `src/data/`: static domain content, including `questions.ts` and `typeProfiles.ts`.
+- `src/lib/`: pure logic and browser persistence helpers, including `scoring.ts`, `storage.ts`, and shared constants.
+- `src/i18n/`: i18next setup plus `en` and `zh-CN` resource bundles for UI chrome, validation, navigation, disclaimer, and labels.
+- `src/types/`: shared TypeScript domain types if they grow beyond local module exports.
+- `tests/` or colocated `*.test.ts`: unit tests for scoring; `e2e/` for Playwright full-flow tests.
+
+## Shared Types
+
+Use explicit domain types to keep data, UI, and scoring aligned:
+
+- `Language = "en" | "zh-CN"`.
+- `Dimension = "EI" | "SN" | "TF" | "JP"`.
+- `Pole = "E" | "I" | "S" | "N" | "T" | "F" | "J" | "P"`.
+- `LikertValue = 1 | 2 | 3 | 4 | 5`.
+- `LocalizedText = Record<Language, string>`.
+- `Question = { id: string; dimension: Dimension; pole: Pole; text: LocalizedText }`.
+- `Answers = Record<Question["id"], LikertValue>`.
+- `DimensionScore = { dimension: Dimension; scores: Partial<Record<Pole, number>>; selected: Pole }`.
+- `ScoringResult = { typeCode: string; dimensions: DimensionScore[] }`.
+- `TypeProfile = { code: string; title: LocalizedText; summary: LocalizedText; strengths: Record<Language, string[]>; challenges: Record<Language, string[]>; workStyle: LocalizedText; communicationTips: Record<Language, string[]> }`.
+
+## Key Design Decisions
+
+- Use `react-router-dom` for client-side routes: `/`, `/test`, `/result`, and `/about`.
+- Use `react-i18next` with `en` and `zh-CN` bundles, browser/default-language detection, and localStorage persistence for language choice.
+- Keep questions and type profiles as typed static data modules. This avoids runtime fetching and supports static deployment.
+- Keep scoring as pure functions with no React or browser dependencies. Tests should cover pole aggregation, dimension selection, deterministic ties, and type assembly.
+- Map 5-point Likert answers directly to the question's tagged pole total. A neutral `3` still contributes to the tagged pole unless a later issue specifies centered/reverse scoring.
+- Define tie-breaks explicitly in `scoring.ts`, preferably by fixed dimension order defaults (`E`, `S`, `T`, `J`) or another documented deterministic rule, so tests and UI agree.
+- Persist in-progress quiz state in localStorage under versioned keys, including answers and current question index. Restart should clear only app-owned quiz keys.
+- Result page should calculate from saved answers when possible, and route users back to the test if no complete answer set exists.
+- Tailwind should implement a calm, modern, professional, mobile-first theme with readable typography and restrained soft purple/blue gradient accents.
+- Accessibility expectations include semantic landmarks, keyboard-operable controls, visible focus states, labeled Likert options, sufficient contrast, and bilingual text rendering checks.
+- Static deployment should rely on Vite production output. README should document install, dev, lint/test, build, preview, and bare static hosting.
+
+## Issue Dependencies
+
+Foundation:
+
+- #1 creates the React + TypeScript + Vite scaffold, base folders, TypeScript config, and `.env.example`.
+- #2 depends on #1 and adds Tailwind, ESLint, Prettier, and strict TypeScript.
+- #3 depends on #2 and establishes theme tokens, shared UI primitives, and `AppShell`.
+- #4 depends on #3 and wires routes/navigation.
+
+Localization:
+
+- #5 depends on #4 and adds react-i18next, language context, and detection.
+- #6 depends on #5 and adds the persistent header toggle.
+- #7 depends on #5 and fills UI string resources and validation/disclaimer strings.
+
+Domain Data and Logic:
+
+- #8 depends on #7 and defines the 32 bilingual questions.
+- #9 depends on #8 and defines the 16 bilingual type profiles.
+- #10 depends on #8 and implements pure scoring.
+- #11 depends on #10 and tests scoring behavior.
+
+Quiz Experience:
+
+- #12 depends on #3 and #8 and builds the Likert and question card components.
+- #13 depends on #12 and builds the paginated test flow and progress bar.
+- #14 depends on #13 and adds answer/current-position persistence.
+- #15 depends on #13 and #7 and blocks incomplete submission with bilingual messages.
+
+Pages and Completion:
+
+- #16 depends on #4 and builds the homepage.
+- #17 depends on #9, #10, and #15 and builds the result page.
+- #18 depends on #14 and #17 and adds share text plus restart.
+- #19 depends on #7 and builds the bilingual About/Disclaimer page.
+
+Verification and Release:
+
+- #20 depends on #17 and adds Playwright full-flow coverage.
+- #21 depends on #16, #17, #18, and #19 and performs responsive, accessibility, and bilingual polish.
+- #22 depends on #20 and #21 and finalizes README plus static deployment preparation.
