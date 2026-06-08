@@ -56,15 +56,20 @@ export const en = {
     },
     home: {
       eyebrow: 'MBTI self-reflection test',
+      subtitle:
+        'Explore how you tend to gain energy, process information, make decisions, and organize daily life.',
       description:
-        'A calm, bilingual personality test experience is taking shape on a reusable React, TypeScript, Vite, and Tailwind foundation.',
-      designDirection: 'Design direction',
-      visualToneLabel: 'Visual tone',
-      visualToneValue: 'Calm, modern, professional',
-      layoutLabel: 'Layout',
-      layoutValue: 'Mobile-first with readable spacing',
-      accentsLabel: 'Accents',
-      accentsValue: 'Soft purple and blue gradients',
+        'Answer {{count}} short Likert-style statements and receive a reflective four-letter personality type result.',
+      summaryLabel: 'Test summary',
+      questionCountLabel: 'Questions',
+      formatLabel: 'Format',
+      formatValue: 'Five-point agreement scale',
+      languageLabel: 'Languages',
+      languageValue: 'English and Chinese',
+      dimensionsEyebrow: 'Four dimensions',
+      dimensionsTitle: 'What the test looks at',
+      dimensionsIntro:
+        'MBTI-style results combine one preference from each dimension to form a four-letter type.',
     },
     test: {
       eyebrow: 'Test',

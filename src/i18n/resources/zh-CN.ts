@@ -56,15 +56,19 @@ export const zhCN = {
     },
     home: {
       eyebrow: 'MBTI 自我探索测试',
+      subtitle: '探索你如何获得能量、处理信息、做出决定，并组织日常生活。',
       description:
-        '一个平静、双语的人格测试体验正在基于 React、TypeScript、Vite 和 Tailwind 的可复用基础上逐步成形。',
-      designDirection: '设计方向',
-      visualToneLabel: '视觉语气',
-      visualToneValue: '平静、现代、专业',
-      layoutLabel: '布局',
-      layoutValue: '移动优先，并保持清晰易读的间距',
-      accentsLabel: '强调色',
-      accentsValue: '柔和的紫色与蓝色渐变',
+        '回答 {{count}} 道简短的李克特量表陈述题，获得一个用于自我反思的四字母人格类型结果。',
+      summaryLabel: '测试概览',
+      questionCountLabel: '题目数量',
+      formatLabel: '形式',
+      formatValue: '五点同意度量表',
+      languageLabel: '语言',
+      languageValue: '英文和中文',
+      dimensionsEyebrow: '四个维度',
+      dimensionsTitle: '测试关注的内容',
+      dimensionsIntro:
+        'MBTI 风格的结果会从每个维度中组合一个偏好，形成一个四字母类型。',
     },
     test: {
       eyebrow: '测试',
