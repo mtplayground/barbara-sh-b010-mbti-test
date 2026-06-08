@@ -1,13 +1,18 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { QuestionCard } from '../components';
 import { questionBank, totalQuestionCount } from '../data';
+import { readTestProgress, saveTestProgress } from '../lib';
 import type { LikertValue } from '../lib';
 
 export function TestPage() {
   const { t } = useTranslation();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, LikertValue>>({});
+  const [currentIndex, setCurrentIndex] = useState(
+    () => readTestProgress().currentIndex,
+  );
+  const [answers, setAnswers] = useState<Record<string, LikertValue>>(
+    () => readTestProgress().answers,
+  );
   const currentQuestion = questionBank[currentIndex];
 
   const answeredCount = useMemo(() => Object.keys(answers).length, [answers]);
@@ -17,6 +22,13 @@ export function TestPage() {
   );
   const isFirstQuestion = currentIndex === 0;
   const isLastQuestion = currentIndex === totalQuestionCount - 1;
+
+  useEffect(() => {
+    saveTestProgress({
+      currentIndex,
+      answers,
+    });
+  }, [answers, currentIndex]);
 
   const handleAnswerChange = (questionId: string, value: LikertValue) => {
     setAnswers((currentAnswers) => ({
