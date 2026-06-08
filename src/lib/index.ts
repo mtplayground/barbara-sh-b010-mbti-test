@@ -4,6 +4,11 @@ export {
   likertValues,
   scoreAnswers,
 } from './scoring';
+export {
+  readTestProgress,
+  saveTestProgress,
+  testProgressStorageKey,
+} from './testProgressStorage';
 export type {
   AnswerMap,
   DimensionScore,
@@ -11,3 +16,4 @@ export type {
   PoleScore,
   ScoringResult,
 } from './scoring';
+export type { TestProgressState } from './testProgressStorage';
