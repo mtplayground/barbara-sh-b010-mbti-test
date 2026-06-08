@@ -48,6 +48,7 @@ export const zhCN = {
     },
     nav: {
       primary: '主导航',
+      skipToContent: '跳到主要内容',
       home: '首页',
       test: '测试',
       result: '结果',
