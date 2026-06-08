@@ -112,3 +112,17 @@ export function saveTestProgress(progress: TestProgressState) {
     return;
   }
 }
+
+export function clearTestProgress() {
+  const storage = getLocalStorage();
+
+  if (!storage) {
+    return;
+  }
+
+  try {
+    storage.removeItem(testProgressStorageKey);
+  } catch {
+    return;
+  }
+}

@@ -82,6 +82,10 @@ export const zhCN = {
         '结果页面路由已就绪，待计分和提交答案功能完成后将展示人格类型。',
       interpretationTitle: '详细解读',
       breakdownIntro: '分数展示每个维度中，各偏好方向获得的同意度总分。',
+      shareTitle: '可分享结果',
+      shareDescription: '你可以直接复制这段文字来分享自己的结果。',
+      shareText:
+        '我在《{{appTitle}}》中的结果是 {{typeCode}} — {{title}}。\n\n{{summary}}',
     },
     about: {
       eyebrow: '关于 / 免责声明',
