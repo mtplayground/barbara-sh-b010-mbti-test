@@ -5,6 +5,7 @@ export {
   scoreAnswers,
 } from './scoring';
 export {
+  clearTestProgress,
   readTestProgress,
   saveTestProgress,
   testProgressStorageKey,

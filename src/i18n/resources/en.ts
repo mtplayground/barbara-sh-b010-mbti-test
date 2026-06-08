@@ -85,6 +85,11 @@ export const en = {
       interpretationTitle: 'Detailed interpretation',
       breakdownIntro:
         'Scores show the total agreement points assigned to each pole in every dimension.',
+      shareTitle: 'Shareable result',
+      shareDescription:
+        'Use this copy-ready text when you want to share your result.',
+      shareText:
+        'My result on {{appTitle}} is {{typeCode}} — {{title}}.\n\n{{summary}}',
     },
     about: {
       eyebrow: 'About / Disclaimer',

@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { dimensionDefinitions, typeProfileMap } from '../data';
 import { useLanguage } from '../i18n';
-import { readTestProgress, scoreAnswers } from '../lib';
+import { clearTestProgress, readTestProgress, scoreAnswers } from '../lib';
 import type { DimensionScore } from '../lib';
 
 function getDimensionDefinition(score: DimensionScore) {
@@ -15,6 +15,8 @@ function getDimensionDefinition(score: DimensionScore) {
 export function ResultPage() {
   const { t } = useTranslation();
   const { language } = useLanguage();
+  const navigate = useNavigate();
+  const [isCopied, setIsCopied] = useState(false);
   const result = useMemo(() => {
     const progress = readTestProgress();
 
@@ -23,6 +25,30 @@ export function ResultPage() {
 
   const isComplete = result.answeredCount === result.totalQuestionCount;
   const profile = typeProfileMap[result.typeCode];
+  const shareText = useMemo(
+    () =>
+      t('result.shareText', {
+        appTitle: t('app.title'),
+        summary: profile.summary[language],
+        title: profile.title[language],
+        typeCode: result.typeCode,
+      }),
+    [language, profile.summary, profile.title, result.typeCode, t],
+  );
+
+  const handleCopyShareText = async () => {
+    try {
+      await navigator.clipboard.writeText(shareText);
+      setIsCopied(true);
+    } catch {
+      setIsCopied(false);
+    }
+  };
+
+  const handleRestart = () => {
+    clearTestProgress();
+    void navigate('/test');
+  };
 
   if (!isComplete) {
     return (
@@ -75,6 +101,47 @@ export function ResultPage() {
           <p className="mt-4 text-lg leading-8 text-slate-700">
             {profile.summary[language]}
           </p>
+        </div>
+      </section>
+
+      <section
+        className="rounded-3xl border border-white/70 bg-white/85 p-5 shadow-[var(--shadow-soft)] backdrop-blur sm:p-7"
+        aria-labelledby="share-result-title"
+      >
+        <div className="max-w-3xl">
+          <h2
+            id="share-result-title"
+            className="text-2xl font-black text-slate-950"
+          >
+            {t('result.shareTitle')}
+          </h2>
+          <p className="mt-3 text-slate-600">{t('result.shareDescription')}</p>
+        </div>
+        <textarea
+          className="mt-5 min-h-36 w-full resize-y rounded-2xl border border-indigo-100 bg-indigo-50/60 p-4 text-sm leading-6 text-slate-800 focus:border-indigo-400 focus:ring-3 focus:ring-indigo-200 focus:outline-none"
+          readOnly
+          value={shareText}
+          onFocus={(event) => {
+            event.currentTarget.select();
+          }}
+        />
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+          <button
+            type="button"
+            className="inline-flex min-h-12 items-center justify-center rounded-full bg-indigo-600 px-6 text-sm font-bold text-white shadow-[var(--shadow-accent)] transition hover:bg-indigo-700 focus-visible:ring-3 focus-visible:ring-indigo-300 focus-visible:outline-none"
+            onClick={() => {
+              void handleCopyShareText();
+            }}
+          >
+            {isCopied ? t('actions.copied') : t('actions.copy')}
+          </button>
+          <button
+            type="button"
+            className="inline-flex min-h-12 items-center justify-center rounded-full border border-indigo-200 bg-white/85 px-6 text-sm font-bold text-indigo-700 shadow-sm transition hover:border-indigo-300 hover:bg-indigo-50 focus-visible:ring-3 focus-visible:ring-indigo-300 focus-visible:outline-none"
+            onClick={handleRestart}
+          >
+            {t('actions.restart')}
+          </button>
         </div>
       </section>
 
