@@ -22,7 +22,7 @@ test('starts the test, answers every question, submits, and shows a valid MBTI r
   ).toBeVisible();
 
   await page.getByRole('link', { name: 'Start Test' }).click();
-  await expect(page).toHaveURL(/\/test$/);
+  await expect(page).toHaveURL(/#\/test$/);
 
   for (let index = 0; index < totalQuestionCount; index += 1) {
     await expect(
@@ -42,7 +42,7 @@ test('starts the test, answers every question, submits, and shows a valid MBTI r
       .click();
   }
 
-  await expect(page).toHaveURL(/\/result$/);
+  await expect(page).toHaveURL(/#\/result$/);
   await expect(
     page.getByRole('heading', { name: validTypeCodePattern }),
   ).toBeVisible();
