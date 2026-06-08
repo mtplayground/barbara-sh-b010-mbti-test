@@ -4,9 +4,9 @@ const mobileViewport = { width: 390, height: 844 };
 
 const zhPages = [
   { path: '/', heading: '发现你的 MBTI 人格类型' },
-  { path: '/test', heading: '测试' },
-  { path: '/result', heading: '结果' },
-  { path: '/about', heading: '关于 / 免责声明' },
+  { path: '/#/test', heading: '测试' },
+  { path: '/#/result', heading: '结果' },
+  { path: '/#/about', heading: '关于 / 免责声明' },
 ] as const;
 
 async function expectNoHorizontalOverflow(page: {
