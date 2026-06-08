@@ -6,6 +6,11 @@ export const en = {
     header: {
       subtitle: 'Self-reflection test',
     },
+    languageToggle: {
+      label: 'Language',
+      en: 'English',
+      zhCN: 'Chinese',
+    },
     nav: {
       primary: 'Primary navigation',
       home: 'Home',
