@@ -90,7 +90,14 @@ export const zhCN = {
     about: {
       eyebrow: '关于 / 免责声明',
       title: '关于 / 免责声明',
-      description: '此路由用于项目背景和免责声明内容，后续议题会继续完善。',
+      description:
+        '这个测试是一个非正式的自我反思工具，旨在帮助你更轻松地探索人格相关语言。',
+      informalTitle: '非正式自我反思',
+      informalBody:
+        '题目和结果用于个人反思、交流和娱乐，不应被视为固定标签，也不能完整定义任何一个人。',
+      notOfficialTitle: '不是官方 Myers-Briggs 评估',
+      notOfficialBody:
+        '本体验不隶属于、未获得背书，也不能替代任何官方 Myers-Briggs 评估、认证从业者、临床评估、招聘流程或诊断工具。',
     },
     validation: {
       answerRequired: '请先选择一个答案再继续。',
