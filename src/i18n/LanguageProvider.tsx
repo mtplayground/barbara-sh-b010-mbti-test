@@ -5,6 +5,7 @@ import { LanguageContext } from './languageContext';
 import {
   defaultLanguage,
   normalizeLanguage,
+  saveLanguagePreference,
   supportedLanguages,
 } from './language';
 import type { Language } from './language';
@@ -43,6 +44,7 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   }, [language]);
 
   const setLanguage = useCallback(async (nextLanguage: Language) => {
+    saveLanguagePreference(nextLanguage);
     await i18n.changeLanguage(nextLanguage);
   }, []);
 

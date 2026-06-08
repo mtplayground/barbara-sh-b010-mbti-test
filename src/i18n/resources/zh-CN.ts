@@ -6,6 +6,11 @@ export const zhCN = {
     header: {
       subtitle: '自我探索测试',
     },
+    languageToggle: {
+      label: '语言',
+      en: '英文',
+      zhCN: '中文',
+    },
     nav: {
       primary: '主导航',
       home: '首页',
