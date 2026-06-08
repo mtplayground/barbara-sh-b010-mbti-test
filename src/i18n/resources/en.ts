@@ -48,6 +48,7 @@ export const en = {
     },
     nav: {
       primary: 'Primary navigation',
+      skipToContent: 'Skip to main content',
       home: 'Home',
       test: 'Test',
       result: 'Result',
